@@ -1,0 +1,132 @@
+﻿@model RAWFIM.ViewModels.AffectationChoixVM
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Affectation: Unité";
+}
+
+<form method="post" asp-action="Affect">
+    <input type="hidden" value=@ViewData["id_demande"] asp-for="Id_demande"/>
+    <input type="hidden" value=@User.Identity.Name asp-for="id_admin" />
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">marque</label>
+
+        <select id="marque" class="form-control" asp-items="@ViewBag.marques">
+            <option value="-1">Select marque</option>
+        </select>
+
+
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">type</label>
+
+        <select id="type" class="form-control" asp-items="@ViewBag.types">
+            <option value="-1">Select type</option>
+        </select>
+    </div>
+
+
+    
+    <div class="form-group">
+        <label for="exampleFormControlSelect1" id="descL">description</label>
+        <select id="desc" class="form-control">
+            <option value="-1">Select desc</option>
+       </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">identifiant</label>
+        <select id="id" class="form-control" asp-for="Id_affectation">
+            <option value="-1">Select id</option>
+
+
+        </select>
+        
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Affecter</button>
+</form>
+@section scripts{
+        <script>
+            $(document).ready(function()
+            {
+            var desc ="<option value=\" - 1\">Select desc</option>";
+            var id = "<option value=\" - 1\">Select id</option>";
+                //$("#marque").on("change",function()
+                //{
+                //        $.ajax
+                //        ({
+                //            type:"Post",
+                //            url: "/Affectation/GetDescriptionMachine",
+                //            data:{"id_marque":$("#marque").val()},
+                //           // datatype:"json",
+                //           // traditional=true,
+                //            success: function(response){
+                //                var desc='';
+                //                $(response).each(function(){
+                //                    desc+="<option value="+this.Value+">"+this.Text+"</option>";
+                //                })
+                //                $("#desc").html(desc);
+                //            },
+                //            faileure:function(response){
+                //                alert(data.responseText);
+                //            }, 
+                //            error: function (response) {
+                //                alert(data.responseText);
+                //            }
+                //        });
+                    
+                //});
+
+                $('#marque , #type').on("change", function () {
+                    $.ajax({
+                        type: "post",
+                        url: "/Affectation/GetDescriptionMachine",
+                        data: { id_marque: $('#marque').val(), id_type: $('#type').val() },
+                        // datatype:"json",
+                        // traditional=true,
+                        success: function (data) {
+                        var desc = "<option value=\" - 1\">Select desc</option>";
+                            $(data).each(function () {
+                                desc += "<option value=" + this.value + ">" + this.text + "</option>";
+                            })
+                            $("#desc").html(desc);
+                        },
+                        faileure: function (data) {
+                            alert(data.responseText);
+                        },
+                        error: function (data) {
+                            alert(data.responseText);
+                        }
+                    });
+                });
+
+                $('#desc').on("change", function () {
+                    $.ajax({
+                        type: "post",
+                        url: "/Affectation/GetIdMachine",
+                        data: { id_desc: $('#desc').val() },
+                        // datatype:"json",
+                        // traditional=true,
+                        success: function (data) {
+                        var id = "<option value=\" - 1\">Select id</option>";
+                            $(data).each(function () {
+                                id += "<option value=" + this.value + ">" + this.text + "</option>";
+                            })
+                            $("#id").html(id);
+                        },
+                        faileure: function (data) {
+                            alert(data.responseText);
+                        },
+                        error: function (data) {
+                            alert(data.responseText);
+                        }
+                    });
+                });
+
+            });     
+        </script>
+        }

@@ -1,0 +1,121 @@
+﻿
+
+@{
+   
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - RAWFIM</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+</head>
+<body style="background-color:#ffffff;padding-top: 160px; ">
+   
+    <header>    
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 fixed-top" style="background:#273481; margin-top:90px " >
+           <div  class ="fixed-top text-center " style="background-color:#ffffff; z-index:1; height:90px;">
+            <img src="~/img/RADEES_title.png" class="fixed-top rounded mx-auto d-block " >
+            </div>
+            <div class="container-fluid">
+                
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index" >RAWFIM</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+               
+
+                            
+
+               
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between ">
+                    
+                    <ul class="navbar-nav flex-grow-1">
+                       
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("admin"))
+                            {
+
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-primary btn-sm text-white m-sm-1" asp-area="" asp-controller="Materiel" asp-action="Index">Gérer le stock</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-primary btn-sm text-white m-sm-1" asp-area="" asp-controller="Affectation" asp-action="Index"> Affectations</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-primary btn-sm text-white m-sm-1" asp-area="" asp-controller="Demande" asp-action="All">Demandes des agents</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-primary btn-sm text-white m-sm-1" asp-area="" asp-controller="Account" asp-action="Register">Ajouter un utilisateur</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-primary btn-sm text-white m-sm-1" asp-area="" asp-controller="Demande" asp-action="Index">Mes demandes</a>
+                                </li>
+                                if (User.IsInRole("validator"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="btn btn-outline-primary btn-sm text-white m-sm-1" asp-area="" asp-controller="Demande" asp-action="Agents">Demandes des agents</a>
+                                    </li>
+                                }
+                            }
+                        }
+
+                            </ul>
+                         @if(User.Identity.IsAuthenticated)
+                         {
+
+                        <div class="text-white m-1">@User.Identity.Name</div>
+                        <a class="btn btn-outline-primary btn-sm text-white" asp-area="" asp-controller="Account" asp-action="Logout">Se déconnecter</a>
+
+                    }
+                    else
+                    {
+
+                        
+                        <a class="btn btn-outline-primary btn-sm text-white float-end" asp-area="" asp-controller="Account" asp-action="Login">Se connecter</a>
+                           
+                         }
+                       
+                    
+
+                   
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div>
+
+
+
+
+    
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    </div>
+
+
+    <footer class="border-top footer text-muted fixed-bottom" style="background:#273481">
+        <div class="container-fluid fixed-bottom " style="background:#273481">
+            2022 RAADES Web-app For Inventory Managment V0.1 - Développé par Aassem SAHIB pour la RADEES. <a asp-area="" asp-controller="Home" asp-action="About">Plus d'informations</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

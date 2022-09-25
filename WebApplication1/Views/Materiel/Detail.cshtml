@@ -1,0 +1,154 @@
+﻿
+@model RAWFIM.ViewModels.Affectations_MaterielViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col-sm-12">
+
+    <div class="card bg-transparent">
+
+        <div class="card-body">
+            <h6 class="card-title text-center ">@Model.Materiel.Type_machine.Description_type @Model.Materiel.Marque.Nom_marque - @Model.Materiel.Nom_machine</h6>
+            <div class="d-md-flex d-grid gap-2 float-end">
+                <span class="badge bg-primary">
+                    Quantité disponible: @{
+                        var quant = Model.Materiel.Quantite_stock - Model.Affectations.Where(i => i.Agent_validateur != null).Count();
+
+                    }
+                    @quant
+                </span>
+
+            </div>
+            <h6 class="">@Model.Materiel.Description_machine</h6>
+            <h6 class="">Marché: @Model.Materiel.Num_marché</h6> 
+            <h6 class="">
+                Reçu le @Model.Materiel.Date_reception.ToShortDateString()
+                à  @Model.Materiel.Date_reception.ToShortTimeString()
+            </h6>
+            
+            
+            
+            <h6 class="">Fin de garantie le @Model.Materiel.Date_fin_garantie.ToShortDateString() 
+                à  @Model.Materiel.Date_fin_garantie.ToShortTimeString()</h6>
+                
+           
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+    <div class="text-center mb-5">
+      <h3>détails matériels</h3>  
+    </div>
+
+    @foreach(var item in Model.Affectations){
+        if(item.Id_validateur!=null){
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="d-flex flex-column flex-lg-row">
+                <span class="avatar avatar-text rounded-3 me-4 mb-2">
+                    @item.Id_affectation
+
+                </span>
+                <div class="row flex-fill">
+                    <div class="col-sm-8">
+                        <h4 class="h5 text-center">validé par @item.Agent_validateur.Nom_agent @item.Agent_validateur.Prenom_agent, affecté à @item.Agent_demandeur.Nom_agent @item.Agent_demandeur.Prenom_agent</h4>
+                        
+
+                    </div>
+                    <div class="col-sm-4 py-2 text-center">
+                       @item.Date_affectation
+                    </div>
+                   <div>
+                                <a class="btn btn-primary" asp-controller="Affectation" asp-action="Detail" asp-route-id="@item.Id_affectation">Plus de détails</a>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else
+    {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-lg-row">
+                        <span class="avatar avatar-text rounded-3 me-4 mb-2">
+                            @item.Id_affectation
+
+                        </span>
+                        <div class="row flex-fill">
+                            <div class="col-sm-5">
+                                <h4 class="h5"></h4>
+                               
+
+
+                            </div>
+                            <div class="col-sm-4 py-2">
+                               Non affecté
+                            </div>
+                            <div>
+                                <a class="btn btn-primary" asp-controller="Affectation" asp-action="Detail" asp-route-id="@item.Id_affectation">Plus de détails</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    }
+    
+    }
+
+
+    <!--
+   @* @foreach(var item in Model.affectations){
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-column flex-lg-row">
+                    <span class="avatar avatar-text rounded-3 me-4 mb-2">@item.id_affectation</span>
+
+                    @if (item.id_validateur == null)
+                    {
+                        <h4 class="h5">Non affecté</h4>
+                        <div class="col-sm-3 text-lg-end">
+                            <a class="btn btn-primary float-end ">Apply</a>
+                        </div>
+                    }
+                    else
+                    {
+                    <div class="row flex-fill">
+                        
+                           
+                        <div class="col-sm-5">
+                            <h4 class="h5">Junior Frontend Developer</h4>
+                            <span class="badge bg-secondary">WORLDWIDE</span> <span class="badge bg-success">$60K - $100K</span>
+                        </div>
+
+                        <div class="col-sm-4 py-2">
+                            <span class="badge bg-secondary">REACT</span>
+                            <span class="badge bg-secondary">NODE</span>
+                            <span class="badge bg-secondary">TYPESCRIPT</span>
+                            <span class="badge bg-secondary">JUNIOR</span>
+                        </div>
+                            
+                            
+                        
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }*@
+    
+    -->
+
+  </div>
+
+

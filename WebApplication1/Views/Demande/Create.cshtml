@@ -1,0 +1,32 @@
+﻿@model Demande
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form method="post" asp-action="Create">
+
+   
+
+    
+    <input type="hidden" asp-for="Id_agent" value="@User.Identity.Name" />
+   
+
+   
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Type du bien</label>
+        
+        <select asp-for="Id_type_machine" class="form-control" id="exampleFormControlSelect1">
+            @foreach(var item in ViewData["type_machine"] as List<Type_Machine>){
+              <option value="@item.Id_type_machine">@item.Description_type</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Desctription_demande">description machine</label>
+        <textarea asp-for="Desctription_demande" class="form-control" id="exampleFormControlInput1" placeholder="Description détaillée du bien" rows="3"></textarea>
+    </div>
+   
+    <br />
+    <button type="submit" class="btn btn-primary float-end">Confirmer et envoyer</button>
+</form>

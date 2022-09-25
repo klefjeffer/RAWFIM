@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Demande>
+
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<a class="btn btn-primary float-end" asp-action="Create">Ajouter</a>
+<div class="container-fluid">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-4 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title text-center">@item</h6>
+                        <h6 class=" btn-secondary float-end">
+                            @{
+                                var types = ViewData["type_machine"] as List<Type_Machine>;
+                                var type = types.FirstOrDefault(i => i.Id_type_machine == item.Id_type_machine);
+                                @type.Description_type
+                            }
+                        </h6>
+                        <h6 class=" justify-content-center">@item.Type_machine</h6>
+
+                        <div class="d-md-flex d-grid gap-2 justify-content-center">
+                            <button class="btn btn-primary">Quantité disponible: @item.Date_demande</button>
+                            <a class="btn btn-primary" asp-action="Detail" asp-route-id="@item.Desctription_demande">Plus de détails</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

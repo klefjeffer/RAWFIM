@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Materiel>
+
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<a class="btn btn-primary float-end" asp-action="Create">Ajouter</a>
+<br/>
+    <div class="container-fluid">
+        <div class="row">
+            @if(!Model.Any()){
+                <h1 class="text-center">Aucune unité en stock</h1>
+            }
+            @foreach(var item in Model)
+            {
+                    <div class="col-sm-4 mb-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title text-center">@item.Nom_machine</h6>
+                        <h6 class=" justify-content-center">@item.Description_machine</h6>
+
+                        <span class=" badge bg-secondary float-end">@item.Type_machine.Description_type</span>
+                            <br>
+                        <span class="badge bg-primary float-end">Quantité: @item.Quantite_stock</span>
+                       
+                                
+                                <div class="d-md-flex d-grid gap-2 justify-content-center">
+                                
+                            <a class="btn btn-primary" asp-action="Detail" asp-route-id="@item.Id_machine">Plus de détails</a>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+            }
+
+         </div>
+    </div>
+        

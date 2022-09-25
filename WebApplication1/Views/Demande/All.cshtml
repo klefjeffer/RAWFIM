@@ -1,0 +1,114 @@
+﻿@model RAWFIM.ViewModels.DemandeViewModel
+
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@{
+
+}
+
+
+
+<!--liste des demandes-->
+
+<div class="container-fluid">
+    @if (Model.ValidationA.Any() != true)
+    {
+        <h1 class="text-center">Aucune demande disponible</h1>
+    }
+    else
+        @foreach (var item in Model.ValidationA)
+        {
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-lg-row">
+                        <span class="avatar avatar-text rounded-3 me-4 mb-2">
+                            le @item.Demande.Date_demande.ToShortDateString() à @item.Demande.Date_demande.ToShortTimeString()
+
+                        </span>
+                        <div class="row flex-fill">
+                            <div class="col-sm-5">
+                                <h4 class="h5">Par @item.Demande.Agent.Nom_agent @item.Demande.Agent.Prenom_agent @item.Demande.Agent.Email</h4>
+                                <span class="badge bg-secondary">
+                                    @item.Demande.Type_machine.Description_type
+                                </span>
+
+                            </div>
+                            <div class="col-sm-4 py-2">
+                                @item.Demande.Desctription_demande
+                            </div>
+
+                            <div class="col-sm-3 text-lg-end">
+                                @if (Model.ValidationA.Any() == true)
+                                {
+                                    if (item.Status_validation == null)
+                                    {
+
+                                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#accept_@item.Id_demande">accepter</button>
+                                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#refus_@item.Id_demande">refuser  </button>
+                                    }
+                                    else
+                                    if (item.Status_validation == true)
+                                    {
+                                        <span class="badge bg-success">Validé</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Refusé</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">erreur</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="refus_@item.Id_demande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Etes vous sur de vouloir refuser la demande de  @item.Demande.Agent.Email</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non, retour</button>
+                            <a type="button" class="btn btn-danger" asp-controller="Validation" asp-action="RefusA" asp-route-id="@item.Id_demande">Oui, refuser</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="accept_@item.Id_demande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Etes vous sur de vouloir accepter la demande de  @item.Demande.Agent.Email</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non, retour</button>
+
+                            <a type="button" class="btn btn-success" asp-controller="Affectation" asp-action="Materiel" asp-route-id="@item.Id_demande">Oui, accepter</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
+</div>
+
+

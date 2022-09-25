@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Affectation_Materiel>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@if(Model.Any()!=true){
+    <h1 class="text-center">Aucun matériel n'a été affecté</h1>
+}else{
+    foreach(var item in Model){
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-column flex-lg-row">
+                    <span class="avatar avatar-text rounded-3 me-4 mb-2">
+                        le @item.Date_affectation.ToShortDateString() à @item.Date_affectation.ToShortTimeString()
+
+                    </span>
+                    <div class="row flex-fill">
+                        <div class="col-sm-5">
+                            <h4 class="h5">Affecté à @item.Demande.Agent.Nom_agent @item.Demande.Agent.Prenom_agent, 
+                                validé par @item.Agent_validateur.Nom_agent @item.Agent_validateur.Prenom_agent</h4>
+                            <span class="badge bg-secondary">
+                                @item.Demande.Type_machine.Description_type
+                            </span>
+
+                        </div>
+                        <div class="col-sm-4 py-2">
+                            @item.Demande.Desctription_demande
+                        </div>
+
+                        <div class="col-sm-3 text-lg-end">
+                            Machine N° @item.Id_affectation
+                            <br/>
+                            <a class="btn btn-primary"  asp-action="Detail" asp-route-id="@item.Id_affectation">Plus de détails</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

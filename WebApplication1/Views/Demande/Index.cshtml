@@ -1,0 +1,122 @@
+﻿@model RAWFIM.ViewModels.DemandeViewModel
+
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<a class="btn btn-primary float-end" asp-action="Create">Ajouter</a>
+
+@{
+    var validCL = Model.ValidationC.ToList();
+    var validAL = Model.ValidationA.ToList();
+}
+<br />
+<br />
+
+<div class="container-fluid">
+    @if (Model.Demandes.Any() != true)
+    {
+        <h1 class="text-center">Vous n'avez effectué aucune demande</h1>
+    }
+    else
+        @foreach (var item in Model.Demandes)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-lg-row">
+                        <span class="avatar avatar-text rounded-3 me-4 mb-2">
+                            le @item.Date_demande.ToShortDateString() à @item.Date_demande.ToShortTimeString()
+
+                        </span>
+                        <div class="row flex-fill">
+                            <div class="col-sm-3">
+                                <!--h4 class="h5"></h4-->
+                                <span class=" h5 badge bg-secondary">
+                                    @item.Type_machine.Description_type
+                                 @*   @{
+                                        var types = ViewData["type_machine"] as List<Type_Machine>;
+                                        var type = types.FirstOrDefault(i => i.id_type_machine == item.id_type_machine);
+                                            @type.description_type
+                                    }*@
+                                </span>
+
+                            </div>
+                            <div class="col-sm-9">
+                                @item.Desctription_demande
+                            </div>
+                            <div class="col-sm-5   ">
+
+                                @if (User.IsInRole("user"))
+                                {
+                                    var validC = validCL.FirstOrDefault(r => r.Id_demande == item.Id_demande);
+
+                                    if(validC!=null)
+                                    {
+                                        var validA = validAL.FirstOrDefault(r => r.Id_demande == item.Id_demande);
+                                        if(validA!=null){
+                                            if(validA.Status_validation==true)
+                                            {
+                                                    <span class="badge bg-success">Acceptée par le service informatique le @validA.Date_decision.Value.ToShortDateString()</span>
+
+                                            }else
+                                            if(validA.Status_validation==false)
+                                            {
+                                                <span class="badge bg-danger">Refusée par le service informatique le @validA.Date_decision.Value.ToShortDateString()</span>
+                                            }else{
+                                                <span class="badge bg-primary">
+                                                    Validée par le chef de service le @validC.Date_decision.Value.ToShortDateString(), 
+                                                    en attente de validation par le service informatique
+                                                </span>
+                                            }
+                                        }else
+                                        if(validC.Status_validation==true){
+                                            <span class="badge bg-success">Acceptée par votre chef de service le @validC.Date_decision.Value.ToShortDateString() mais non transmise au service informatique</span>
+                                        }else
+                                        if(validC.Status_validation==false){
+                                            <span class="badge bg-danger">Refusée par votre chef de service le @validC.Date_decision.Value.ToShortDateString()</span>
+
+                                        }else{
+                                            <span class="badge bg-primary">En attente d'acceptation par votre chef de service</span>
+
+                                        }
+                                    }else{
+                                        <span class="badge bg-danger">La demande n'a pas été envoyée pour validation</span>
+
+                                    }
+                                }else{
+                                    var validA = validAL.FirstOrDefault(r => r.Id_demande == item.Id_demande);
+                                    if (validA != null)
+                                    {
+                                        if (validA.Status_validation == true)
+                                        {
+                                            <span class="badge bg-success">Acceptée par le service informatique le @validA.Date_decision.Value.ToShortDateString()</span>
+
+                                        }
+                                        else
+                                        if (validA.Status_validation == false)
+                                        {
+                                            <span class="badge bg-danger">Refusée par le service informatique le @validA.Date_decision.Value.ToShortDateString()</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-primary">
+                                                En attente de validation par le service informatique.
+                                            </span>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">La demande n'a pas été envoyée pour validation</span>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+</div>

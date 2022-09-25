@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var affectation = Model.Affectations.First();
+}
+
+@model RAWFIM.ViewModels.Affectations_MaterielViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="col-sm-12">
+
+    <div class="card bg-transparent">
+
+        <div class="card-body">
+            <h6 class="card-title text-center ">@affectation.Materiel.Type_machine.Description_type @affectation.Materiel.Marque.Nom_marque - @affectation.Materiel.Nom_machine</h6>
+            <div class="d-md-flex d-grid gap-2 float-end">
+                <span class="badge bg-primary">
+                    @{
+                        var status = "";
+                        if(affectation.Id_validateur!=null){
+
+
+                            status = "Affecté à "+ affectation.Agent_demandeur.UserName;
+                        }else{
+                            status = "Non affecté";
+                        }
+                    }
+                    @status
+                </span>
+
+            </div>
+            <h6 class="">@affectation.Materiel.Description_machine</h6>
+            <h6 class="">Marché: @affectation.Materiel.Num_marché</h6>
+            <h6 class="">
+                Reçu le @affectation.Materiel.Date_reception.ToShortDateString()
+                à  @affectation.Materiel.Date_reception.ToShortTimeString()
+            </h6>
+
+
+
+            <h6 class="">
+                Fin de garantie le @affectation.Materiel.Date_fin_garantie.ToShortDateString()
+                à  @affectation.Materiel.Date_fin_garantie.ToShortTimeString()
+            </h6>
+
+
+
+        </div>
+
+    </div>
+
+</div>

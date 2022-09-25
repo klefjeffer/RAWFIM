@@ -1,0 +1,106 @@
+﻿@model RAWFIM.ViewModels.RegisterVM
+
+
+@{
+    ViewData["Name"] = "Register";
+}
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4>Enregistrement</h4>
+        </p>
+        @if (TempData["Error"] != null)
+        {
+        <div class="col-md-12 alert alert-danger">
+            <span><b>Erreur</b> - @TempData["Error"]</span>
+        </div>
+        }
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Register">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Matricule" class="control-label"></label>
+                        <input asp-for="Matricule" class="form-control">
+                        <span asp-validation-for="Matricule" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Prenom" class="control-label"></label>
+                        <input asp-for="Prenom" class="form-control" />
+                        <span asp-validation-for="Prenom" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Nom" class="control-label"></label>
+                        <input asp-for="Nom" class="form-control" />
+                        <span asp-validation-for="Nom" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        
+                        <label asp-for="Id_division">Division</label>
+
+                        <input asp-for="NewDivName" class="form-control" id="NewDivName" placeholder="Division">
+
+                        <select asp-for="Id_division" class="form-control" id="Id_division">
+                            @foreach (var item in TempData["division"] as List<Division>)
+                            {
+                                <option value="@item.Id_division">@item.Nom_division</option>
+                            }
+                        </select>
+                    
+                        <span asp-validation-for="Id_division" class="text-danger"></span>
+                    </div>
+                    <br/>
+                    <div class="form-check">
+                        <input asp-for="DivIsNew" class="form-check-input" type="checkbox" id="DivIsNew">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            La division est inexistante
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        
+                        
+                    </div>
+
+                    <div class="form-check">
+                        <input asp-for="Est_chef" class="form-check-input" type="checkbox" id="Est_chef">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Cet agent est le chef de service
+                        </label>
+                    </div>
+
+                    <br/>
+                    <div class="form-group">
+                        <input class="btn btn-outline-success float right" type="submit" value="Créer" />
+                        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+      $(document).ready(function () {
+            $('#NewDivName').fadeOut('fast');
+
+            $('#DivIsNew').change(function () {
+                if (this.checked){
+                    $('#NewDivName').fadeIn('fast');
+                    $('#Id_division').fadeOut('fast');
+                }
+                else{
+                    $('#NewDivName').fadeOut('fast');
+                    $('#Id_division').fadeIn('fast');
+                }
+
+            });
+      });
+      </script>
+}
